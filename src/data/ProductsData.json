@@ -1,0 +1,101 @@
+[
+    {
+        "id": 1,
+        "name": "iPhone 15 pro max",
+        "price": "1000€",
+        "condition": "New",
+        "date": "2023/12/10",
+        "category": "Phones",
+        "place": "Porto"
+    },
+    {
+        "id": 2,
+        "name": "Samsung galaxy S24",
+        "price": "1000€",
+        "condition": "New",
+        "date": "2023/12/20",
+        "category": "Phones",
+        "place": "Lisbon"
+    },
+    {
+        "id": 3,
+        "name": "Asus zyphyr",
+        "price": "2500€",
+        "condition": "Lightly used",
+        "date": "2022/12/19",
+        "category": "Computers",
+        "place": "Aveiro"
+    },
+    {
+        "id": 4,
+        "name": "Acer nitro",
+        "price": "900€",
+        "condition": "Used",
+        "date": "2021/12/23",
+        "category": "Computers",
+        "place": "Porto"
+    },
+    {
+        "id": 5,
+        "name": "Adidas gazelle",
+        "price": "120€",
+        "condition": "New",
+        "date": "2023/12/29",
+        "category": "Shoes",
+        "place": "Lisbon"
+    },
+    {
+        "id": 6,
+        "name": "Nike hoodie",
+        "price": "80€",
+        "condition": "New",
+        "date": "2024/01/03",
+        "category": "Clothing",
+        "place": "Porto"
+    },
+    {
+        "id": 7,
+        "name": "Zara t-shirt",
+        "price": "10€",
+        "condition": "New",
+        "date": "2024/01/10",
+        "category": "Clothing",
+        "place": "Braga"
+    },
+    {
+        "id": 8,
+        "name": "New Balance 550",
+        "price": "80€",
+        "condition": "Used",
+        "date": "2021/11/20",
+        "category": "Shoes",
+        "place": "Faro"
+    },
+    {
+        "id": 9,
+        "name": "Asics pants",
+        "price": "50€",
+        "condition": "Lightly used",
+        "date": "2023/05/20",
+        "category": "Clothing",
+        "place": "Braga"
+    },
+    {
+        "id": 10,
+        "name": "Google Pixel 8",
+        "price": "350€",
+        "condition": "Lightly used",
+        "date": "2022/06/20",
+        "category": "Phones",
+        "place": "Porto"
+    },
+    {
+        "id": 11,
+        "name": "MSI vector",
+        "price": "550€",
+        "condition": "Used",
+        "date": "2023/02/26",
+        "category": "Computers",
+        "place": "Porto"
+    }
+]
