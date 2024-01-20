@@ -1,5 +1,4 @@
 // Font imports
-//@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 
@@ -41,4 +40,24 @@ body {
     justify-content: flex-start;
     gap: 2rem;
     background-color: var(--app-bg-color);
+}
+
+
+// Global styles content
+.button_container {
+    margin: 0;
+    padding: 0.35rem .9rem;
+    font-size: 0.775rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 2rem;
+    border: .05rem solid var(--app-secondary-color);
+    color: var(--footer-color);
+    letter-spacing: 0.015rem;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        scale: 1.05;
+    }
 }
