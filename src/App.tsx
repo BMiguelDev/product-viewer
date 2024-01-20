@@ -1,14 +1,18 @@
 import React from 'react';
-import "./App.css";
 
-function App() {
+import "./App.scss";
+
+const App = () => {
   return (
-    <div className='App'>
-      <header className="App-header">
+    <div className='app_container'>
+      <header>
         header
       </header>
+      <main>App</main>
+      <footer>footer</footer>
     </div>
-  );
+  )
+
 }
 
 export default App
