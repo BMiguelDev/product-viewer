@@ -10,7 +10,7 @@
 - Open command line and navigate to project's folder: "product-viewer"
 - Run command "npm install"
 - Run command "npm start" to start application in the browser
-###### Note: - the unit tests can be run with the command "npm run test" 
+###### Note: The unit tests can be run with the command "npm run test" 
 
 ## App functionalities:
 - See a list of products (either test data or imported from local machine)
