@@ -28,7 +28,6 @@
                 color: var(--app-bg-color);
             }
         }
-
     }
 
     .productslist_wrapper {
@@ -116,6 +115,23 @@
 
     .pagination_container {
         text-align: center;
-        background-color: grey;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+
+        button {
+            cursor: pointer;
+            background-color: var(--app-special-color);
+            border: .1rem solid var(--app-text-support-color);
+            border-radius: 2rem;
+            padding: .15rem .5rem;
+            font-size: 1.25rem;
+
+            &:disabled {
+                cursor:not-allowed;
+                background-color: transparent;
+            }
+        }
     }
 }
