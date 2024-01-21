@@ -37,9 +37,6 @@ const ProductList = ({ products, filterConditions }: PropTypes) => {
         maximumPageNumber: Math.ceil(products.length / NUMBER_RESULTS_PER_PAGE),
     });
 
-    // TODO: probably not necessary
-    const [numberFilteredResults, setNumberFilteredResults] = useState<number>(products.length);
-
     // Whenever new product items are loaded, the pagination also needs to be updated
     useEffect(() => {
         setPaginationStatus({
@@ -92,17 +89,34 @@ const ProductList = ({ products, filterConditions }: PropTypes) => {
         );
     };
 
-    // Whenever the product items are filtered, the pagination also needs to be updated TODO: complete this
-    const handleFilter = () => {
-        // if there are filters to apply:
-        // apply filters
-        // get resulting number of items from filters into variable "numberFilteredItems";
-        let numberFilteredItems = products.length; // TODO: change this
-        setPaginationStatus((prevPaginationStatus) => ({
-            pageNumber: 0,
-            maximumPageNumber: Math.ceil(numberFilteredItems / NUMBER_RESULTS_PER_PAGE),
-        }));
-    };
+    // Whenever the <filteredConditions> change and products items are filtered, the pagination also needs to be updated TODO: complete this
+    useEffect(() => {
+        // If there are any filters to apply (any checkboxes checked), apply them
+        if (Object.values(filterConditions).some((array) => array.length !== 0)) {
+            
+            const filteredProducts = products.filter((product) =>
+                Object.keys(filterConditions).some((property) =>
+                    filterConditions[property as keyof FilterConditionsType].includes(
+                        product[property as keyof FilterConditionsType]
+                    )
+                )
+            );
+
+            // Get resulting number of items after filtering
+            let numberFilteredItems = filteredProducts.length;
+            setPaginationStatus((prevPaginationStatus) => ({
+                pageNumber: 0,
+                maximumPageNumber: Math.ceil(numberFilteredItems / NUMBER_RESULTS_PER_PAGE),
+            }));
+        } else {    // If there are no filters, build pagination using the <products> variable instead
+            // Get resulting number of items after filtering
+            let numberFilteredItems = products.length;
+            setPaginationStatus((prevPaginationStatus) => ({
+                pageNumber: 0,
+                maximumPageNumber: Math.ceil(numberFilteredItems / NUMBER_RESULTS_PER_PAGE),
+            }));
+        }
+    }, [filterConditions, products]);
 
     return (
         <div className={styles.productslist_container}>
@@ -165,7 +179,34 @@ const ProductList = ({ products, filterConditions }: PropTypes) => {
                             {/* Map through the products list and, for each product, get each product's characteristic value for each cell*/}
                             {
                                 // Sort products array using the <sortingCriteria> variable, and never changing the <products> variable, so that we can efficiently go back to unsorted
-                                sortingCriteria.sortingCategory !== ""
+                                sortingCriteria.sortingCategory !== "" &&
+                                Object.values(filterConditions).some((array) => array.length !== 0) // Only filter the results if there's any checkbox checked
+                                    ? products
+                                          .filter((product) =>
+                                              Object.keys(filterConditions).some((property) =>
+                                                  filterConditions[property as keyof FilterConditionsType].includes(
+                                                      product[property as keyof FilterConditionsType]
+                                                  )
+                                              )
+                                          )
+                                          .slice()
+                                          .sort((a, b) => sortArray(a, b))
+                                          .map((product) => (
+                                              <tr key={product.id} aria-label="table_body_row">
+                                                  {Object.entries(product).map(([key, value], index) =>
+                                                      key !== "id" && !hiddenColumns.includes(key) ? (
+                                                          <td key={index}>{value}</td>
+                                                      ) : (
+                                                          ""
+                                                      )
+                                                  )}
+                                              </tr>
+                                          ))
+                                          .slice(
+                                              paginationStatus.pageNumber * NUMBER_RESULTS_PER_PAGE,
+                                              (paginationStatus.pageNumber + 1) * NUMBER_RESULTS_PER_PAGE
+                                          )
+                                    : sortingCriteria.sortingCategory !== ""
                                     ? products
                                           .slice()
                                           .sort((a, b) => sortArray(a, b))
@@ -181,9 +222,34 @@ const ProductList = ({ products, filterConditions }: PropTypes) => {
                                               </tr>
                                           ))
                                           .slice(
-                                            paginationStatus.pageNumber * NUMBER_RESULTS_PER_PAGE,
-                                            (paginationStatus.pageNumber + 1) * NUMBER_RESULTS_PER_PAGE
-                                        )
+                                              paginationStatus.pageNumber * NUMBER_RESULTS_PER_PAGE,
+                                              (paginationStatus.pageNumber + 1) * NUMBER_RESULTS_PER_PAGE
+                                          )
+                                    : // Only filter the results if there's any checkbox checked
+                                    Object.values(filterConditions).some((array) => array.length !== 0)
+                                    ? products
+                                          .filter((product) =>
+                                              Object.keys(filterConditions).some((property) =>
+                                                  filterConditions[property as keyof FilterConditionsType].includes(
+                                                      product[property as keyof FilterConditionsType]
+                                                  )
+                                              )
+                                          )
+                                          .map((product) => (
+                                              <tr key={product.id} aria-label="table_body_row">
+                                                  {Object.entries(product).map(([key, value], index) =>
+                                                      key !== "id" && !hiddenColumns.includes(key) ? (
+                                                          <td key={index}>{value}</td>
+                                                      ) : (
+                                                          ""
+                                                      )
+                                                  )}
+                                              </tr>
+                                          ))
+                                          .slice(
+                                              paginationStatus.pageNumber * NUMBER_RESULTS_PER_PAGE,
+                                              (paginationStatus.pageNumber + 1) * NUMBER_RESULTS_PER_PAGE
+                                          )
                                     : products
                                           .map((product) => (
                                               <tr key={product.id} aria-label="table_body_row">
@@ -209,9 +275,9 @@ const ProductList = ({ products, filterConditions }: PropTypes) => {
                 )}
             </section>
 
+            {/* // Pagination element. If there's no products, dont show anything */}
             {paginationStatus.maximumPageNumber >= 1 ? (
                 <div className={styles.pagination_container}>
-                    {/* // Pagination here. If no products, dont show anything */}
                     <button
                         onClick={() =>
                             setPaginationStatus((prevPaginationStatus) => ({

@@ -2,7 +2,7 @@ import * as React from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 
 import ProductList from "../ProductList";
-import { Product } from "../../../models/model";
+import { FilterConditionsType, Product } from "../../../models/model";
 
 afterEach(() => {
     cleanup();
@@ -10,7 +10,7 @@ afterEach(() => {
 
 test("On first component mount product list should display empty", () => {
     const products: Product[] = [];
-    const filterConditions = {};
+    const filterConditions: FilterConditionsType = { category: [], condition: [], place: [] };
     render(<ProductList products={products} filterConditions={filterConditions} />);
 
     const tableBodyRowElement = screen.queryAllByLabelText(/table_body_row/i);
@@ -41,7 +41,7 @@ test("When there's products on the list there's as many table rows as the loaded
             place: "Lisbon",
         },
     ];
-    const filterConditions = {};
+    const filterConditions: FilterConditionsType = { category: [], condition: [], place: [] };
     render(<ProductList products={products} filterConditions={filterConditions} />);
 
     const tableBodyRowElement = screen.getAllByLabelText("table_body_row");
@@ -69,7 +69,7 @@ test("When there's products on the list, there's as many table columns as the nu
             place: "Lisbon",
         },
     ];
-    const filterConditions = {};
+    const filterConditions: FilterConditionsType = { category: [], condition: [], place: [] };
     render(<ProductList products={products} filterConditions={filterConditions} />);
 
     let listOfCharacterists: string[] = [];

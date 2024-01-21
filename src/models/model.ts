@@ -9,7 +9,7 @@ export interface Product {
 }
 
 export interface FilterConditionsType {
-    condition?: string[];
-    category?: string[];
-    place?: string[];
+    condition: string[];
+    category: string[];
+    place: string[];
 }
