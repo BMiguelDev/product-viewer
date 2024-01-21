@@ -61,16 +61,18 @@ const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTy
         else return 0;
     };
 
-    // Add product characteristic <keyString> to hiddenColumns variable, so that it won't be shown in the table
-    const handleHideColumn = (keyString: string) => {
-        setHiddenColumns(prevHiddenColumns => !prevHiddenColumns.includes(keyString) ? [...prevHiddenColumns, keyString] : prevHiddenColumns);
+    // Add product characteristic <keyString> to hiddenColumns variable to hide column, or remove the characteristic if it is already present in the array (to re-show column)
+    const handleToggleColumn = (keyString: string) => {
+        setHiddenColumns(prevHiddenColumns => !prevHiddenColumns.includes(keyString) ? [...prevHiddenColumns, keyString] : prevHiddenColumns.filter(property=> property !== keyString));
     }
 
     return (
         <div className={styles.productslist_container}>
             <div className={styles.hidden_columns_container}>
                 {/* Map through the hiddenColunms array to display each hidden column here */}
-                Hidden Columns
+                {
+                    hiddenColumns.map(property => <p key={property} onClick={() => handleToggleColumn(property)}>{property}</p>)
+                }
             </div>
 
             <section className={styles.productslist_wrapper}>
@@ -107,7 +109,7 @@ const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTy
                                                         />
                                                     )
                                                 }
-                                                <FontAwesomeIcon onClick={() => handleHideColumn(key)} icon={faXmark} />
+                                                <FontAwesomeIcon onClick={() => handleToggleColumn(key)} icon={faXmark} />
                                             </div>
                                         </th>
                                     ) : (
