@@ -71,7 +71,7 @@ const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTy
             <div className={styles.hidden_columns_container}>
                 {/* Map through the hiddenColunms array to display each hidden column here */}
                 {
-                    hiddenColumns.map(property => <p key={property} onClick={() => handleToggleColumn(property)}>{property}</p>)
+                    hiddenColumns.map(property => <p key={property} title="Show Column" onClick={() => handleToggleColumn(property)}>{property}</p>)
                 }
             </div>
 
