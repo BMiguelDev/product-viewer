@@ -14,7 +14,7 @@
 
 ## Usage instructions:
 - Click "Load Test Data" to instantly load a local dummy data file onto the app
-- Alternatively, click "Upload" to search and load a json file from the file system (Note: All products in a file must have the same characteristics)
+- Alternatively, click "Upload" to search and load a json file from the file system (Note: All products in a file must have the same characteristics, in a similar format as can be seen in the files in the "src/data" folder)
 - After loading data onto the app:
     - Click any column to sort it. Click it again to sort it in descending order. Click it again to go back to unsorted
     - Click the "X" next to a column to hide that column. That column's name will apear above the table; click it again to bring it back
