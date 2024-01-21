@@ -7,3 +7,9 @@ export interface Product {
     category: string;
     place: string;
 }
+
+export interface FilterConditionsType {
+    condition?: string[];
+    category?: string[];
+    place?: string[];
+}

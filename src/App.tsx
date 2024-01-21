@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import ProductList from "./components/ProductList/ProductList";
+import ProductViewer from "./components/ProductViewer/ProductViewer";
 import "./App.scss";
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
     return (
         <div ref={appContainerRef} className="app_container">
             <Navbar />
-            <ProductList />
+            <ProductViewer />
             <Footer />
         </div>
     );
