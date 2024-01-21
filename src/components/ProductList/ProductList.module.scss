@@ -1,26 +1,73 @@
 .productslist_container {
-    height: 100%;
+    // height: 90%;
+    height: 82.5%;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
     gap: .5rem;
-    border: .01rem solid red;
 
     .hidden_columns_container {
         align-self: flex-start;
         display: flex;
         flex-direction: row;
-        
+
     }
 
     .productslist_wrapper {
         min-height: 80%;
         border: .1rem solid var(--app-text-support-color);
         border-radius: 1.5rem;
-        width: 100%;
-        overflow-y: auto;
+        padding: 1rem;
+        min-width: 70%;
+        max-width: 100%;
+        overflow: auto;
+
+        table {
+            border-collapse: collapse;
+            text-align: center;
+
+            thead {
+                tr {
+                    border-bottom: .1rem solid var(--app-text-support-color);
+                    padding: .25rem;
+
+                    th {
+                        padding: .5rem;
+                        text-transform: capitalize;
+
+                        &:not(:last-of-type) {
+                            border-right: .1rem solid var(--app-text-support-color);
+                        }
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    &:not(:last-of-type) {
+                        border-bottom: .05rem solid var(--app-secondary-color);
+                    }
+
+                    td {
+                        padding: .5rem;
+
+                        &:not(:last-of-type) {
+                            border-right: .1rem solid var(--app-text-support-color);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        .empty_projects_list {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 
     .pagination_container {
