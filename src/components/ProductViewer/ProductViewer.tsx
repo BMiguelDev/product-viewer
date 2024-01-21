@@ -23,10 +23,6 @@ const ProductViewer = () => {
         setProducts(DummyProductsData);
     };
 
-    // const handleUploadProducts = () => {
-    //     return null;
-    // };
-
     const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         let file = event.target.files ? event.target.files[0] : null;
 
@@ -56,7 +52,6 @@ const ProductViewer = () => {
                         buttonBgColor="#009325"
                         handleClick={handleLoadTestData}
                     ></Button>
-                    {/* <Button buttonTitle="Upload" buttonBgColor="#008C99" handleClick={handleUploadProducts}></Button> */}
                     <label className="button_container" htmlFor="fileInput" style={{ backgroundColor: "#008C99" }}>
                         Upload
                         <input

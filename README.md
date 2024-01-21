@@ -1,6 +1,6 @@
 # Product Viewer App
 
-#### This App allows you see, sort and filter a list of products, as well as paginate through them.
+#### This App allows you upload a JSON data file and see, sort and filter a list of products, as well as paginate through them.
 
 #### Developed using React, Typescript and Sass
 
@@ -29,4 +29,5 @@
 ## Aspects shown in this project:
 - React, Typescript, Sass
 - Gitflow Workflow
-- Test Driven Development
+- Unit Testing (JEST and RTL)
+- Test Driven Development (TDD)
