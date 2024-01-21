@@ -14,7 +14,7 @@
 
 ## Usage instructions:
 - Click "Load Test Data" to instantly load a local dummy data file onto the app
-- Alternatively, click "Upload" to search and load a json file from the file system
+- Alternatively, click "Upload" to search and load a json file from the file system (Note: All products in a file must have the same characteristics)
 - After loading data onto the app:
     - Click any column to sort it. Click it again to sort it in descending order. Click it again to go back to unsorted
     - Click the "X" next to a column to hide that column. That column's name will apear above the table; click it again to bring it back
@@ -26,6 +26,7 @@
 - Sort, filter and hide the list of products
 - Paginate through list of products
 
-## Skills shown in this project:
+## Aspects shown in this project:
 - React, Typescript, Sass
 - Gitflow Workflow
+- Test Driven Development

@@ -6,9 +6,10 @@ import { FilterConditionsType, Product } from "../../models/model";
 interface PropTypes {
     products: Product[];
     filterConditions: FilterConditionsType;
+    hiddenColumns: string[];
 }
 
-const ProductList = ({ products, filterConditions }: PropTypes) => {
+const ProductList = ({ products, filterConditions, hiddenColumns }: PropTypes) => {
     return (
         <div className={styles.productslist_container}>
 

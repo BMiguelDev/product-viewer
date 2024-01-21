@@ -36,8 +36,6 @@ const ProductViewer = () => {
             fileReader.readAsText(file, "UTF-8");
             fileReader.onload = (event) => {
                 if (event.target && event.target.result) {  // If uploaded file contains valid products, set state variable with uploaded products
-                    // const productsJSON = JSON.parse(event.target.result as string);
-                    // TODO: check what happens when products with wrong characteristics are uploaded
                     setProducts(JSON.parse(event.target.result as string));
                 }
                 else {  // If uploaded file is empty, alert user
@@ -46,11 +44,6 @@ const ProductViewer = () => {
             };
         }
     };
-
-    // Temporary debug logging TODO: remove this
-    useEffect(() => {
-        console.log(products);
-    }, [products])
 
     return (
         <main className={styles.main_container}>
@@ -74,7 +67,7 @@ const ProductViewer = () => {
                         />
                     </label>
                 </div>
-                <ProductList products={products} filterConditions={filterConditions} />
+                <ProductList products={products} filterConditions={filterConditions} hiddenColumns={hiddenColumns} />
             </div>
         </main>
     );
