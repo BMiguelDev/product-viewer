@@ -29,5 +29,5 @@
 ## Aspects shown in this project:
 - React, Typescript, Sass
 - Gitflow Workflow
-- Unit Testing (JEST and RTL)
-- Test Driven Development (TDD)
+- Unit Testing (JEST and RTL) (used only in the implementation of list of products)
+- Test Driven Development (TDD) (used only in the implementation of list of products)

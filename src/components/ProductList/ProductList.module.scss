@@ -34,11 +34,40 @@
                     padding: .25rem;
 
                     th {
-                        padding: .5rem;
-                        text-transform: capitalize;
-
                         &:not(:last-of-type) {
                             border-right: .1rem solid var(--app-text-support-color);
+                        }
+
+                        .table_header_cell_wrapper {
+                            padding: .5rem;
+                            display: inline-block;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            gap: .5rem;
+
+                            h4 {
+                                margin: 0;
+                                text-transform: capitalize;
+                            }
+
+                            svg {
+                                cursor: pointer;
+                                border: .01rem solid var(--app-text-support-color);
+                                border-radius: .25rem;
+                                padding: .15rem .2rem;
+                                transition: all .1s ease-in-out;
+
+                                &.sort_selected {
+                                    background-color: var(--app-intermediate-color);
+                                    color: var(--app-bg-color);
+                                }
+
+                                &:hover {
+
+                                    translate: 0 -10%;
+                                }
+                            }
                         }
                     }
                 }
@@ -57,7 +86,6 @@
                             border-right: .1rem solid var(--app-text-support-color);
                         }
                     }
-
                 }
             }
         }
