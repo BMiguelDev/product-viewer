@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./ProductList.module.scss";
 import { FilterConditionsType, Product } from "../../models/model";
@@ -8,7 +8,7 @@ import { faArrowDownAZ, faArrowDownZA, faXmark } from "@fortawesome/free-solid-s
 interface PropTypes {
     products: Product[];
     filterConditions: FilterConditionsType;
-    hiddenColumns: string[];
+    // hiddenColumns: string[];
 }
 
 interface SortingCriteria {
@@ -16,12 +16,15 @@ interface SortingCriteria {
     sortingDirection: number;
 }
 
-const ProductList = ({ products, filterConditions, hiddenColumns }: PropTypes) => {
+const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTypes) => {
     // Variable holding the currently sorted category and the sorting direction
     const [sortingCriteria, setSortingCriteria] = useState<SortingCriteria>({
         sortingCategory: "",
         sortingDirection: -1,
     });
+
+    // Array that will hold the hidden columns
+    const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
 
     const handleSort = (keyString: string) => {
         setSortingCriteria((prevSortingCriteria) => {
@@ -58,11 +61,18 @@ const ProductList = ({ products, filterConditions, hiddenColumns }: PropTypes) =
         else return 0;
     };
 
+    // Add product characteristic <keyString> to hiddenColumns variable to hide column, or remove the characteristic if it is already present in the array (to re-show column)
+    const handleToggleColumn = (keyString: string) => {
+        setHiddenColumns(prevHiddenColumns => !prevHiddenColumns.includes(keyString) ? [...prevHiddenColumns, keyString] : prevHiddenColumns.filter(property=> property !== keyString));
+    }
+
     return (
         <div className={styles.productslist_container}>
             <div className={styles.hidden_columns_container}>
                 {/* Map through the hiddenColunms array to display each hidden column here */}
-                Hidden Columns
+                {
+                    hiddenColumns.map(property => <p key={property} title="Show Column" onClick={() => handleToggleColumn(property)}>{property}</p>)
+                }
             </div>
 
             <section className={styles.productslist_wrapper}>
@@ -72,7 +82,7 @@ const ProductList = ({ products, filterConditions, hiddenColumns }: PropTypes) =
                             <tr data-testid="table_head_row">
                                 {/* Set up table headers using the first product characteristics (all products must have same characteristic order) */}
                                 {Object.keys(products[0]).map((key) =>
-                                    key !== "id" ? (
+                                    (key !== "id" && !hiddenColumns.includes(key)) ? (
                                         <th key={key}>
                                             <div className={styles.table_header_cell_wrapper}>
                                                 <h4>{key}</h4>
@@ -99,7 +109,7 @@ const ProductList = ({ products, filterConditions, hiddenColumns }: PropTypes) =
                                                         />
                                                     )
                                                 }
-                                                <FontAwesomeIcon icon={faXmark} />
+                                                <FontAwesomeIcon onClick={() => handleToggleColumn(key)} icon={faXmark} />
                                             </div>
                                         </th>
                                     ) : (
@@ -119,14 +129,14 @@ const ProductList = ({ products, filterConditions, hiddenColumns }: PropTypes) =
                                           .map((product) => (
                                               <tr key={product.id} aria-label="table_body_row">
                                                   {Object.entries(product).map(([key, value], index) =>
-                                                      key !== "id" ? <td key={index}>{value}</td> : ""
+                                                      (key !== "id" && !hiddenColumns.includes(key)) ? <td key={index}>{value}</td> : ""
                                                   )}
                                               </tr>
                                           ))
                                     : products.map((product) => (
                                           <tr key={product.id} aria-label="table_body_row">
                                               {Object.entries(product).map(([key, value], index) => (
-                                                  key !== "id" ? <td key={index}>{value}</td> : ""
+                                                  (key !== "id" && !hiddenColumns.includes(key)) ? <td key={index}>{value}</td> : ""
                                               ))}
                                           </tr>
                                       ))

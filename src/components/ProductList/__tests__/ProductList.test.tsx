@@ -11,8 +11,7 @@ afterEach(() => {
 test("On first component mount product list should display empty", () => {
     const products: Product[] = [];
     const filterConditions = {};
-    const hiddenColumns: string[] = [];
-    render(<ProductList products={products} filterConditions={filterConditions} hiddenColumns={hiddenColumns} />);
+    render(<ProductList products={products} filterConditions={filterConditions} />);
 
     const tableBodyRowElement = screen.queryAllByLabelText(/table_body_row/i);
     const emptyProductsText = screen.queryByText(/No Products yet. Import some!/);
@@ -43,8 +42,7 @@ test("When there's products on the list there's as many table rows as the loaded
         },
     ];
     const filterConditions = {};
-    const hiddenColumns: string[] = [];
-    render(<ProductList products={products} filterConditions={filterConditions} hiddenColumns={hiddenColumns} />);
+    render(<ProductList products={products} filterConditions={filterConditions} />);
 
     const tableBodyRowElement = screen.getAllByLabelText("table_body_row");
     expect(tableBodyRowElement.length).toEqual(2);
@@ -72,8 +70,7 @@ test("When there's products on the list, there's as many table columns as the nu
         },
     ];
     const filterConditions = {};
-    const hiddenColumns: string[] = [];
-    render(<ProductList products={products} filterConditions={filterConditions} hiddenColumns={hiddenColumns} />);
+    render(<ProductList products={products} filterConditions={filterConditions} />);
 
     let listOfCharacterists: string[] = [];
 
