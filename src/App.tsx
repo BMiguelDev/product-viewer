@@ -1,18 +1,34 @@
-import React from 'react';
+import React, { useEffect, useRef } from "react";
 
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
+import ProductViewer from "./components/ProductViewer/ProductViewer";
 import "./App.scss";
 
 const App = () => {
-  return (
-    <div className='app_container'>
-      <header>
-        header
-      </header>
-      <main>App</main>
-      <footer>footer</footer>
-    </div>
-  )
+    const appContainerRef = useRef<HTMLDivElement>(null);
 
-}
+    useEffect(() => {
+        // Function to lock height at window's inner height
+        const handleResize = () => {
+            if (appContainerRef.current) appContainerRef.current.style.height = `${window.innerHeight}px`;
+        };
 
-export default App
+        window.addEventListener("resize", handleResize);
+        handleResize();
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+    return (
+        <div ref={appContainerRef} className="app_container">
+            <Navbar />
+            <ProductViewer />
+            <Footer />
+        </div>
+    );
+};
+
+export default App;

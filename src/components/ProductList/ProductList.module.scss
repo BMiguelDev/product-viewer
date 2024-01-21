@@ -1,0 +1,137 @@
+.productslist_container {
+    // height: 90%;
+    height: 82.5%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: .5rem;
+
+    .hidden_columns_container {
+        align-self: flex-start;
+        display: flex;
+        flex-direction: row;
+        gap: .5rem;
+
+        p {
+            margin: 0;
+            text-transform: capitalize;
+            border: .1rem solid var(--app-text-support-color);
+            border-radius: 1rem;
+            padding: .25rem .5rem;
+            cursor: pointer;
+            transition: all .1s ease-in-out;
+
+            &:hover {
+                background-color: var(--app-intermediate-color);
+                color: var(--app-bg-color);
+            }
+        }
+    }
+
+    .productslist_wrapper {
+        min-height: 80%;
+        border: .1rem solid var(--app-text-support-color);
+        border-radius: 1.5rem;
+        padding: 1rem;
+        min-width: 70%;
+        max-width: 100%;
+        overflow: auto;
+
+        table {
+            border-collapse: collapse;
+            text-align: center;
+
+            thead {
+                tr {
+                    border-bottom: .1rem solid var(--app-text-support-color);
+                    padding: .25rem;
+
+                    th {
+                        &:not(:last-of-type) {
+                            border-right: .1rem solid var(--app-text-support-color);
+                        }
+
+                        .table_header_cell_wrapper {
+                            padding: .5rem;
+                            display: inline-block;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            gap: .5rem;
+
+                            h4 {
+                                margin: 0;
+                                text-transform: capitalize;
+                            }
+
+                            svg {
+                                cursor: pointer;
+                                border: .01rem solid var(--app-text-support-color);
+                                border-radius: .25rem;
+                                padding: .15rem .2rem;
+                                transition: all .1s ease-in-out;
+
+                                &.sort_selected {
+                                    background-color: var(--app-intermediate-color);
+                                    color: var(--app-bg-color);
+                                }
+
+                                &:hover {
+
+                                    translate: 0 -10%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    &:not(:last-of-type) {
+                        border-bottom: .05rem solid var(--app-secondary-color);
+                    }
+
+                    td {
+                        padding: .5rem;
+
+                        &:not(:last-of-type) {
+                            border-right: .1rem solid var(--app-text-support-color);
+                        }
+                    }
+                }
+            }
+        }
+
+        .empty_projects_list {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .pagination_container {
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+
+        button {
+            cursor: pointer;
+            background-color: var(--app-special-color);
+            border: .1rem solid var(--app-text-support-color);
+            border-radius: 2rem;
+            padding: .15rem .5rem;
+            font-size: 1.25rem;
+
+            &:disabled {
+                cursor:not-allowed;
+                background-color: transparent;
+            }
+        }
+    }
+}
