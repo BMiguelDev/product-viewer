@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import styles from "./ProductViewer.module.scss";
 import { FilterConditionsType, Product } from "../../models/model";
@@ -14,7 +14,11 @@ const ProductViewer = () => {
     const [products, setProducts] = useState<Product[]>([]);
 
     // Object that will hold the filters defined by the user Its possible to filter by condition, category and place
-    const [filterConditions, setFilterConditions] = useState<FilterConditionsType>({});
+    const [filterConditions, setFilterConditions] = useState<FilterConditionsType>({
+        category: [],
+        condition: [],
+        place: []
+    });
 
     const handleLoadTestData = () => {
         setProducts(DummyProductsData);
@@ -40,7 +44,7 @@ const ProductViewer = () => {
 
     return (
         <main className={styles.main_container}>
-            <FilterTab products={products} filterConditions={filterConditions} />
+            <FilterTab products={products} filterConditions={filterConditions} setFilterConditions={setFilterConditions}/>
             <div className={styles.products_container}>
                 <h3>Products</h3>
                 <div className={styles.buttons_container}>
