@@ -1,51 +1,55 @@
 import React from "react";
 
 import styles from "./ProductList.module.scss";
-import Button from "../Button/Button";
+import { FilterConditionsType, Product } from "../../models/model";
 
-const ProductList = () => {
-    const handleLoadTestData = () => {
-        return null;
-    };
+interface PropTypes {
+    products: Product[];
+    filterConditions: FilterConditionsType;
+    hiddenColumns: string[];
+}
 
-    const handleUploadProducts = () => {
-        return null;
-    };
-
+const ProductList = ({ products, filterConditions, hiddenColumns }: PropTypes) => {
     return (
-        <main className={styles.main_container}>
-            <div className={styles.filters_container}>
-                <h5>Filters</h5>
-                {/* //Map through all existing characteristics in the products array and render a "div" for each */}
+        <div className={styles.productslist_container}>
+            <div className={styles.hidden_columns_container}>
+                {/* Map through the hiddenColunms array to display each hidden column here */}
+                Hidden Columns
             </div>
-            <div className={styles.products_container}>
-                <h3>Products</h3>
-                <div className={styles.buttons_container}>
-                    <Button
-                        buttonTitle="Load Test Data"
-                        buttonBgColor="#009325"
-                        handleClick={handleLoadTestData}
-                    ></Button>
-                    <Button buttonTitle="Upload" buttonBgColor="#008C99" handleClick={handleUploadProducts}></Button>
-                </div>
-                <section className={styles.productslist_container}>
-                    <table>
-                        <thead>
-                            <tr>
-                                {/* // Map through the first products' properties as a <th>. If there are no products, display "No products meet criteria or "No products yet, Import some!" if products array is empty*/}
+
+            <section className={styles.productslist_wrapper}>
+                {products.length !== 0 ? (
+                    <table aria-label="product_table">
+                        <thead aria-label="table_head">
+                            <tr data-testid="table_head_row">
+                                {/* Set up table headers using the first product characteristics (all products must have same characteristic order) */}
+                                {Object.keys(products[0]).map((key) => (
+                                    // <th onClick={handleSort} key={key}>
+                                    <th key={key}>{key}</th>
+                                ))}
                             </tr>
                         </thead>
-                        <tbody>
-                            {/* // Map through the products list and, for each product, get each product's property as a <td> */}
+                        <tbody aria-label="table_body">
+                            {/* Map through the products list and, for each product, get each product's characteristic value for each cell*/}
+                            {products.map((product) => (
+                                <tr key={product.id} aria-label="table_body_row">
+                                    {Object.values(product).map((value, index) => (
+                                        <td key={index}>{value}</td>
+                                    ))}
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
-                </section>
-                <div className={styles.pagination_container}>
-                    {/* // Pagination here. If no products, dont show anything */}
-                    Page 1
-                </div>
+                ) : (
+                    // If there are no products, display informative message
+                    <div className={styles.empty_projects_list}>No Products yet. Import some!</div>
+                )}
+            </section>
+            <div className={styles.pagination_container}>
+                {/* // Pagination here. If no products, dont show anything */}
+                Page 1
             </div>
-        </main>
+        </div>
     );
 };
 
