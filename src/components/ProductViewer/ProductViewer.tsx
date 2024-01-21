@@ -16,8 +16,8 @@ const ProductViewer = () => {
     // Object that will hold the filters defined by the user Its possible to filter by condition, category and place
     const [filterConditions, setFilterConditions] = useState<FilterConditionsType>({});
 
-    // Array that will hold the hidden columns
-    const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
+    // // Array that will hold the hidden columns
+    // const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
 
     const handleLoadTestData = () => {
         setProducts(DummyProductsData);
@@ -62,7 +62,7 @@ const ProductViewer = () => {
                         />
                     </label>
                 </div>
-                <ProductList products={products} filterConditions={filterConditions} hiddenColumns={hiddenColumns} />
+                <ProductList products={products} filterConditions={filterConditions} /* hiddenColumns={hiddenColumns} */ />
             </div>
         </main>
     );
