@@ -5,10 +5,11 @@ import { FilterConditionsType, Product } from "../../models/model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDownAZ, faArrowDownZA, faXmark } from "@fortawesome/free-solid-svg-icons";
 
+const NUMBER_RESULTS_PER_PAGE = 6;
+
 interface PropTypes {
     products: Product[];
     filterConditions: FilterConditionsType;
-    // hiddenColumns: string[];
 }
 
 interface SortingCriteria {
@@ -16,7 +17,12 @@ interface SortingCriteria {
     sortingDirection: number;
 }
 
-const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTypes) => {
+interface PaginationStatus {
+    pageNumber: number;
+    maximumPageNumber: number;
+}
+
+const ProductList = ({ products, filterConditions }: PropTypes) => {
     // Variable holding the currently sorted category and the sorting direction
     const [sortingCriteria, setSortingCriteria] = useState<SortingCriteria>({
         sortingCategory: "",
@@ -25,6 +31,22 @@ const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTy
 
     // Array that will hold the hidden columns
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
+
+    const [paginationStatus, setPaginationStatus] = useState<PaginationStatus>({
+        pageNumber: 0,
+        maximumPageNumber: Math.ceil(products.length / NUMBER_RESULTS_PER_PAGE),
+    });
+
+    // TODO: probably not necessary
+    const [numberFilteredResults, setNumberFilteredResults] = useState<number>(products.length);
+
+    // Whenever new product items are loaded, the pagination also needs to be updated
+    useEffect(() => {
+        setPaginationStatus({
+            pageNumber: 0,
+            maximumPageNumber: Math.ceil(products.length / NUMBER_RESULTS_PER_PAGE),
+        });
+    }, [products]);
 
     const handleSort = (keyString: string) => {
         setSortingCriteria((prevSortingCriteria) => {
@@ -63,16 +85,34 @@ const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTy
 
     // Add product characteristic <keyString> to hiddenColumns variable to hide column, or remove the characteristic if it is already present in the array (to re-show column)
     const handleToggleColumn = (keyString: string) => {
-        setHiddenColumns(prevHiddenColumns => !prevHiddenColumns.includes(keyString) ? [...prevHiddenColumns, keyString] : prevHiddenColumns.filter(property=> property !== keyString));
-    }
+        setHiddenColumns((prevHiddenColumns) =>
+            !prevHiddenColumns.includes(keyString)
+                ? [...prevHiddenColumns, keyString]
+                : prevHiddenColumns.filter((property) => property !== keyString)
+        );
+    };
+
+    // Whenever the product items are filtered, the pagination also needs to be updated TODO: complete this
+    const handleFilter = () => {
+        // if there are filters to apply:
+        // apply filters
+        // get resulting number of items from filters into variable "numberFilteredItems";
+        let numberFilteredItems = products.length; // TODO: change this
+        setPaginationStatus((prevPaginationStatus) => ({
+            pageNumber: 0,
+            maximumPageNumber: Math.ceil(numberFilteredItems / NUMBER_RESULTS_PER_PAGE),
+        }));
+    };
 
     return (
         <div className={styles.productslist_container}>
             <div className={styles.hidden_columns_container}>
                 {/* Map through the hiddenColunms array to display each hidden column here */}
-                {
-                    hiddenColumns.map(property => <p key={property} title="Show Column" onClick={() => handleToggleColumn(property)}>{property}</p>)
-                }
+                {hiddenColumns.map((property) => (
+                    <p key={property} title="Show Column" onClick={() => handleToggleColumn(property)}>
+                        {property}
+                    </p>
+                ))}
             </div>
 
             <section className={styles.productslist_wrapper}>
@@ -82,7 +122,7 @@ const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTy
                             <tr data-testid="table_head_row">
                                 {/* Set up table headers using the first product characteristics (all products must have same characteristic order) */}
                                 {Object.keys(products[0]).map((key) =>
-                                    (key !== "id" && !hiddenColumns.includes(key)) ? (
+                                    key !== "id" && !hiddenColumns.includes(key) ? (
                                         <th key={key}>
                                             <div className={styles.table_header_cell_wrapper}>
                                                 <h4>{key}</h4>
@@ -109,7 +149,10 @@ const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTy
                                                         />
                                                     )
                                                 }
-                                                <FontAwesomeIcon onClick={() => handleToggleColumn(key)} icon={faXmark} />
+                                                <FontAwesomeIcon
+                                                    onClick={() => handleToggleColumn(key)}
+                                                    icon={faXmark}
+                                                />
                                             </div>
                                         </th>
                                     ) : (
@@ -129,17 +172,34 @@ const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTy
                                           .map((product) => (
                                               <tr key={product.id} aria-label="table_body_row">
                                                   {Object.entries(product).map(([key, value], index) =>
-                                                      (key !== "id" && !hiddenColumns.includes(key)) ? <td key={index}>{value}</td> : ""
+                                                      key !== "id" && !hiddenColumns.includes(key) ? (
+                                                          <td key={index}>{value}</td>
+                                                      ) : (
+                                                          ""
+                                                      )
                                                   )}
                                               </tr>
                                           ))
-                                    : products.map((product) => (
-                                          <tr key={product.id} aria-label="table_body_row">
-                                              {Object.entries(product).map(([key, value], index) => (
-                                                  (key !== "id" && !hiddenColumns.includes(key)) ? <td key={index}>{value}</td> : ""
-                                              ))}
-                                          </tr>
-                                      ))
+                                          .slice(
+                                            paginationStatus.pageNumber * NUMBER_RESULTS_PER_PAGE,
+                                            (paginationStatus.pageNumber + 1) * NUMBER_RESULTS_PER_PAGE
+                                        )
+                                    : products
+                                          .map((product) => (
+                                              <tr key={product.id} aria-label="table_body_row">
+                                                  {Object.entries(product).map(([key, value], index) =>
+                                                      key !== "id" && !hiddenColumns.includes(key) ? (
+                                                          <td key={index}>{value}</td>
+                                                      ) : (
+                                                          ""
+                                                      )
+                                                  )}
+                                              </tr>
+                                          ))
+                                          .slice(
+                                              paginationStatus.pageNumber * NUMBER_RESULTS_PER_PAGE,
+                                              (paginationStatus.pageNumber + 1) * NUMBER_RESULTS_PER_PAGE
+                                          )
                             }
                         </tbody>
                     </table>
@@ -148,10 +208,37 @@ const ProductList = ({ products, filterConditions /*, hiddenColumns */ }: PropTy
                     <div className={styles.empty_projects_list}>No Products yet. Import some!</div>
                 )}
             </section>
-            <div className={styles.pagination_container}>
-                {/* // Pagination here. If no products, dont show anything */}
-                Page 1
-            </div>
+
+            {paginationStatus.maximumPageNumber >= 1 ? (
+                <div className={styles.pagination_container}>
+                    {/* // Pagination here. If no products, dont show anything */}
+                    <button
+                        onClick={() =>
+                            setPaginationStatus((prevPaginationStatus) => ({
+                                ...prevPaginationStatus,
+                                pageNumber: prevPaginationStatus.pageNumber - 1,
+                            }))
+                        }
+                        disabled={paginationStatus.pageNumber <= 0}
+                    >
+                        &lt;
+                    </button>
+                    <span>Page {paginationStatus.pageNumber + 1}</span>
+                    <button
+                        onClick={() =>
+                            setPaginationStatus((prevPaginationStatus) => ({
+                                ...prevPaginationStatus,
+                                pageNumber: prevPaginationStatus.pageNumber + 1,
+                            }))
+                        }
+                        disabled={paginationStatus.pageNumber + 1 >= paginationStatus.maximumPageNumber}
+                    >
+                        &gt;
+                    </button>
+                </div>
+            ) : (
+                ""
+            )}
         </div>
     );
 };
